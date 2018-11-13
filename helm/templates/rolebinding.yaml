@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: {{ .Release.Name }}-binding
-  namespace: default
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "helm.name" . }}
     helm.sh/chart: {{ include "helm.chart" . }}
@@ -14,4 +14,5 @@ roleRef:
   name: {{ .Release.Name }}-viewer
 subjects:
 - kind: ServiceAccount
+  namespace: {{ .Release.Namespace }}
   name: {{ .Release.Name }}-service

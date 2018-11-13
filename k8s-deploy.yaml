@@ -3,6 +3,7 @@ kind: Pod
 metadata:
   name: rbac-viewer
 spec:
+  serviceAccountName: rbac-viewer-service
   containers:
   - name: rbac-viewer
     image: austbot/rbacviewer

@@ -4,6 +4,9 @@ build:
   artifacts:
   - image: austbot/rbacviewer
     context: .
+    docker:
+      cacheFrom:
+      - builder
 deploy:
   kubectl:
     manifests:

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/pkg/errors"
 	"github.com/austbot/rbacViewer/backend"
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 	"k8s.io/client-go/rest"
 	"log"
 )
@@ -11,9 +11,12 @@ import (
 func main() {
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "Cluster Config Error"))
+		log.Println(errors.Wrap(err, "Cluster Config Error"))
 	}
-	backendRouter := gin.Default()
-	backend.StartApiServer(backendRouter, config)
-	backendRouter.Run("0.0.0.0:8080")
+	router := gin.Default()
+	if config != nil {
+		backend.StartApiServer(router, config)
+	}
+	router.Static("/","./frontend")
+	router.Run("0.0.0.0:8080")
 }

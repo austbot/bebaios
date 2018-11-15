@@ -4,14 +4,14 @@
 
 replicaCount: 1
 
-image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+image: austbot/rbacviewer:stable
+imagePullPolicy: Always
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
+container:
+  port: 8080
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

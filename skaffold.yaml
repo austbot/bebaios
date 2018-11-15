@@ -5,10 +5,18 @@ build:
   - image: austbot/rbacviewer
     context: .
     docker:
-      cacheFrom:
-      - builder
+      dockerfile: Dockerfile
+  local:
+    push: false
 deploy:
-  kubectl:
-    manifests:
-    - k8s-*.yaml
+  helm:
+    releases:
+    - name: rbac-viewer
+      chartPath: helm
+      namespace: default
+      recreatePods: true
+      values:
+        image: austbot/rbacviewer
+      valuesFiles:
+      - test-values.yaml
 

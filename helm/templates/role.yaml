@@ -9,20 +9,15 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - serviceaccounts
-  verbs:
-  - list
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - clusterroles
-  - clusterrolebindings
-  - rolebindings
-  - roles
-  verbs:
-  - get
-  - list
-  - watch
+- apiGroups: ["extensions", "apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["batch", "extensions"]
+  resources: ["jobs"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods", "endpoints", "services", "namespaces", "replicationcontrollers", "serviceaccounts"]
+  verbs: ["list", "get", "watch"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["rolebindings", "roles", "clusterrolebindings","clusterroles"]
+  verbs: ["get", "list", "watch"]

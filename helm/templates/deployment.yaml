@@ -20,13 +20,17 @@ spec:
         app.kubernetes.io/name: {{ include "helm.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      serviceAccountName: {{ .Release.Name }}-service
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.image }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.container.port }}
+              protocol: TCP
+            - name: debug
+              containerPort: 2345
               protocol: TCP
           livenessProbe:
             httpGet:

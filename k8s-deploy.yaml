@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: rbac-viewer
-spec:
-  serviceAccountName: rbac-viewer-servicec
-  containers:
-  - name: rbac-viewer
-    image: austbot/rbacviewer

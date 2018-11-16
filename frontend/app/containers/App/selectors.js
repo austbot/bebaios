@@ -23,9 +23,14 @@ const makeSelectError = () => createSelector(
   (globalState) => globalState.get('error')
 );
 
-const makeSelectRepos = () => createSelector(
+const makeSelectNamespaces = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['userData', 'repositories'])
+  (globalState) => globalState.getIn(['namespaces'])
+);
+
+const makeSelectPods = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['pods'])
 );
 
 const makeSelectLocation = () => createSelector(
@@ -38,6 +43,7 @@ export {
   makeSelectCurrentUser,
   makeSelectLoading,
   makeSelectError,
-  makeSelectRepos,
+  makeSelectNamespaces,
+  makeSelectPods,
   makeSelectLocation,
 };

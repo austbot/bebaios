@@ -16,9 +16,11 @@
  */
 
 import {
+  LOAD_NAMESPACES,
   LOAD_NAMESPACES_ERROR,
   LOAD_NAMESPACES_SUCCESS,
-  LOAD_NAMESPACES,
+  LOAD_PODS_ERROR,
+  LOAD_PODS_SUCCESS,
 } from './constants';
 
 /**
@@ -40,11 +42,10 @@ export function loadNamespaces() {
  *
  * @return {object}      An action object with a type of LOAD_NAMESPACES_SUCCESS passing the repos
  */
-export function namespacesLoaded(repos) {
+export function namespacesLoaded(ns) {
   return {
     type: LOAD_NAMESPACES_SUCCESS,
-    repos,
-    username,
+    ns
   };
 }
 
@@ -58,6 +59,25 @@ export function namespacesLoaded(repos) {
 export function namespacesLoadingError(error) {
   return {
     type: LOAD_NAMESPACES_ERROR,
+    error,
+  };
+}
+
+/**
+ * Load the repositories, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_NAMESPACES
+ */
+export function loadedPods(pods) {
+  return {
+    type: LOAD_PODS_SUCCESS,
+    pods
+  };
+}
+
+export function podsLoadingError(error) {
+  return {
+    type: LOAD_PODS_ERROR,
     error,
   };
 }

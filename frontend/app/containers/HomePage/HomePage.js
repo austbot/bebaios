@@ -6,31 +6,39 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import ReposList from 'components/ReposList';
+import {Helmet} from 'react-helmet';
 import './style.scss';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  /**
-   * when initial state username is not null, submit the form to load repos
-   */
-  componentDidMount() {
-    this.props.loadNamespaces()
+  constructor() {
+    super();
+    this.handleChange = (evt) => {
+      if (evt !== undefined && evt.preventDefault) {
+        evt.preventDefault();
+        this.props.onNsSelect(evt.target.value)
+      }
+    };
   }
 
+  componentDidMount() {
+    this.props.loadNamespaces();
+    this.props.onNsSelect(this.props.namespace);
+  }
+
+  pods() {
+    const list = this.props.pods.map((pod, i) => <li key={i}>{pod.metadata.name}</li>);
+    return <ul>{list}</ul>;
+  }
+
+
   render() {
-    const { loading, error, repos } = this.props;
-    const reposListProps = {
-      loading,
-      error,
-      repos,
-    };
+    const {namespaces, namespace} = this.props;
 
     return (
       <article>
         <Helmet>
           <title>RBAC Tools</title>
-          <meta name="description" content="A React.js Boilerplate application homepage" />
+          <meta name="description" content="A React.js Boilerplate application homepage"/>
         </Helmet>
         <div className="home-page">
           <section className="centered">
@@ -39,20 +47,14 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
           </section>
           <section>
             <h2>Try me!</h2>
-            <form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-              Show Github repositories by
-                <span className="at-prefix">@</span>
-                <input
-                  id="username"
-                  type="text"
-                  placeholder="flexdinesh"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </form>
-            <ReposList {...reposListProps} />
+            <label htmlFor="ns">
+              <span className="at-prefix">Show pods from namespace</span>
+              <select onChange={this.handleChange} name="ns">
+                {namespaces.map((n) => <option selected={namespace === n.metadata.name}
+                                               key={n.metadata.name}>{n.metadata.name}</option>)}
+              </select>
+              {this.pods()}
+            </label>
           </section>
         </div>
       </article>
@@ -66,12 +68,8 @@ HomePage.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
-  repos: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.bool,
-  ]),
+  namespace: PropTypes.string,
+  namespaces: PropTypes.array,
   loadNamespaces: PropTypes.func,
-  onSubmitForm: PropTypes.func,
-  username: PropTypes.string,
-  onChangeUsername: PropTypes.func,
+  onNsSelect: PropTypes.func
 };

@@ -1,39 +1,36 @@
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import {
-  makeSelectRepos,
-  makeSelectLoading,
-  makeSelectError
-} from 'containers/App/selectors';
-import { loadNamespaces } from '../App/actions';
-import { makeSelectUsername } from './selectors';
+import {makeSelectError, makeSelectLoading, makeSelectNamespaces} from 'containers/App/selectors';
+import {loadNamespaces} from '../App/actions';
 import reducer from './reducer';
 import saga from './saga';
 import HomePage from './HomePage';
+import {makeSelectNamespace} from "./selectors";
+import {selectNamespace} from "./actions";
+import {makeSelectPods} from "../App/selectors";
 
 const mapDispatchToProps = (dispatch) => ({
-    loadNamespaces: () => dispatch(loadNamespaces()),
-  onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-  onSubmitForm: (evt) => {
-    if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-    dispatch(loadRepos());
+  loadNamespaces: () => dispatch(loadNamespaces()),
+  onNsSelect: (value) => {
+    if (value !== undefined) dispatch(selectNamespace(value));
   }
 });
 
 const mapStateToProps = createStructuredSelector({
-  repos: makeSelectRepos(),
-  username: makeSelectUsername(),
+  namespaces: makeSelectNamespaces(),
+  namespace: makeSelectNamespace(),
+  pods: makeSelectPods(),
   loading: makeSelectLoading(),
   error: makeSelectError()
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'home', reducer });
-const withSaga = injectSaga({ key: 'home', saga });
+const withReducer = injectReducer({key: 'home', reducer});
+const withSaga = injectSaga({key: 'home', saga});
 
 export default compose(withReducer, withSaga, withConnect)(HomePage);
-export { mapDispatchToProps };
+export {mapDispatchToProps};

@@ -10,12 +10,15 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { fromJS } from 'immutable';
+import {fromJS} from 'immutable';
 
 import {
-  LOAD_NAMESPACES_SUCCESS,
   LOAD_NAMESPACES,
   LOAD_NAMESPACES_ERROR,
+  LOAD_NAMESPACES_SUCCESS,
+  LOAD_PODS,
+  LOAD_PODS_ERROR,
+  LOAD_PODS_SUCCESS,
 } from './constants';
 
 // The initial state of the App
@@ -23,26 +26,29 @@ const initialState = fromJS({
   loading: false,
   error: false,
   currentUser: false,
-  userData: {
-    repositories: false,
-  },
+  namespaces: [],
+  pods: []
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_NAMESPACES:
+    case LOAD_PODS:
       return state
         .set('loading', true)
-        .set('error', false)
-        .setIn(['userData', 'repositories'], false);
+        .set('error', false);
     case LOAD_NAMESPACES_SUCCESS:
       return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
+        .setIn(['namespaces'], action.ns)
+        .set('loading', false);
     case LOAD_NAMESPACES_ERROR:
+    case LOAD_PODS_ERROR:
       return state
         .set('error', action.error)
+        .set('loading', false);
+    case LOAD_PODS_SUCCESS:
+      return state
+        .setIn(['pods'], action.pods)
         .set('loading', false);
     default:
       return state;

@@ -15,7 +15,7 @@
  *    }
  */
 
-import { CHANGE_USERNAME } from './constants';
+import {SELECT_NAMESPACE} from './constants';
 
 /**
  * Changes the input field of the form
@@ -26,7 +26,7 @@ import { CHANGE_USERNAME } from './constants';
  */
 export function selectNamespace(name) {
   return {
-    type: CHANGE_USERNAME,
+    type: SELECT_NAMESPACE,
     name
   };
 }

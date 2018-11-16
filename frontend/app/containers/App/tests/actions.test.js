@@ -6,7 +6,7 @@ import {
 
 import {
   loadRepos,
-  reposLoaded,
+  namespacesLoaded,
   repoLoadingError,
 } from '../actions';
 
@@ -21,7 +21,7 @@ describe('App Actions', () => {
     });
   });
 
-  describe('reposLoaded', () => {
+  describe('namespacesLoaded', () => {
     it('should return the correct type and the passed repos', () => {
       const fixture = ['Test'];
       const username = 'test';
@@ -31,7 +31,7 @@ describe('App Actions', () => {
         username,
       };
 
-      expect(reposLoaded(fixture, username)).toEqual(expectedResult);
+      expect(namespacesLoaded(fixture, username)).toEqual(expectedResult);
     });
   });
 

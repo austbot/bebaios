@@ -15,9 +15,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    }
+    this.props.loadNamespaces()
   }
 
   render() {
@@ -31,13 +29,13 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     return (
       <article>
         <Helmet>
-          <title>Home Page</title>
+          <title>RBAC Tools</title>
           <meta name="description" content="A React.js Boilerplate application homepage" />
         </Helmet>
         <div className="home-page">
           <section className="centered">
-            <h2>Start your next react project in seconds</h2>
-            <p>A minimal <i>React-Redux</i> boilerplate with all the best practices</p>
+            <h2>View Permissions</h2>
+            <p>Select a POD to view permissions</p>
           </section>
           <section>
             <h2>Try me!</h2>
@@ -72,6 +70,7 @@ HomePage.propTypes = {
     PropTypes.array,
     PropTypes.bool,
   ]),
+  loadNamespaces: PropTypes.func,
   onSubmitForm: PropTypes.func,
   username: PropTypes.string,
   onChangeUsername: PropTypes.func,

@@ -5,7 +5,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 
 import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
+import { namespacesLoaded, repoLoadingError } from 'containers/App/actions';
 
 import githubData, { getRepos } from '../saga';
 
@@ -27,14 +27,14 @@ describe('getRepos Saga', () => {
     expect(callDescriptor).toMatchSnapshot();
   });
 
-  it('should dispatch the reposLoaded action if it requests the data successfully', () => {
+  it('should dispatch the namespacesLoaded action if it requests the data successfully', () => {
     const response = [{
       name: 'First repo',
     }, {
       name: 'Second repo',
     }];
     const putDescriptor = getReposGenerator.next(response).value;
-    expect(putDescriptor).toEqual(put(reposLoaded(response, username)));
+    expect(putDescriptor).toEqual(put(namespacesLoaded(response, username)));
   });
 
   it('should call the repoLoadingError action if the response errors', () => {

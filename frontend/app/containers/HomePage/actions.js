@@ -24,7 +24,7 @@ import { CHANGE_USERNAME } from './constants';
  *
  * @return {object}    An action object with a type of CHANGE_USERNAME
  */
-export function changeUsername(name) {
+export function selectNamespace(name) {
   return {
     type: CHANGE_USERNAME,
     name

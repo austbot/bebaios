@@ -11,18 +11,18 @@
  */
 import { fromJS } from 'immutable';
 
-import { CHANGE_USERNAME } from './constants';
+import { SELECT_NAMESPACE } from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
-  username: ''
+  namespace: 'default'
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_USERNAME:
+    case SELECT_NAMESPACE:
       // Delete prefixed '@' from the github username
-      return state.set('username', action.name.replace(/@/gi, ''));
+      return state.set('namespace', action.name);
     default:
       return state;
   }

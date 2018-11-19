@@ -4,6 +4,7 @@ import (
 	"github.com/austbot/bebaios/backend/services"
 	"github.com/austbot/bebaios/backend/services/permissionService"
 	"github.com/gin-gonic/gin"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	k8sRest "k8s.io/client-go/rest"
 	"log"
@@ -21,11 +22,25 @@ func StartApiServer(router gin.IRouter, config *k8sRest.Config) {
 	}
 
 	r := router.Group("/api")
-	r.GET("/permissions-dump", func(c *gin.Context) {
-		ps := permissionService.New(ks, c)
-		c.JSON(200, gin.H{
-			"namespaces": ps.Data,
-		})
+	r.GET("/namespaces", func(c *gin.Context) {
+		ps, err := ks.Client.CoreV1().Namespaces().List(metav1.ListOptions{})
+		handleIfError(c, err)
+		if err == nil {
+			c.JSON(200, gin.H{
+				"namespaces": ps.Items,
+			})
+		}
+	})
+
+	r.GET("/pods/:namespace", func(c *gin.Context) {
+		namespace := c.Param("namespace")
+		ps, err := ks.Client.CoreV1().Pods(namespace).List(metav1.ListOptions{})
+		handleIfError(c, err)
+		if err == nil {
+			c.JSON(200, gin.H{
+				"pods": ps.Items,
+			})
+		}
 	})
 
 	r.GET("/permissions-for/:namespace/:resource/:name", func(c *gin.Context) {

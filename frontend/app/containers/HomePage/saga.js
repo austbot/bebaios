@@ -2,13 +2,14 @@
  * Gets resources from api
  */
 
-import { call, put, takeLatest } from 'redux-saga/effects';
-import {LOAD_NAMESPACES, LOAD_PODS} from 'containers/App/constants';
-import {namespacesLoaded, namespacesLoadingError} from 'containers/App/actions';
+import {call, put, select, takeLatest} from 'redux-saga/effects';
+import {LOAD_NAMESPACES} from 'containers/App/constants';
+import {loadedPerms, namespacesLoaded, namespacesLoadingError, permsLoadingError} from 'containers/App/actions';
 
 import request from 'utils/request';
 import {loadedPods, podsLoadingError} from "../App/actions";
-import {SELECT_NAMESPACE} from "./constants";
+import {SELECT_NAMESPACE, SELECT_POD} from "./constants";
+import {makeSelectNamespace} from "./selectors";
 
 /**
  * Namespaces
@@ -36,14 +37,34 @@ export function* getPods(action) {
   }
 }
 
+export function* getPermissions(action) {
+  const ns = yield select(makeSelectNamespace());
+  const requestURL = `http://localhost:8080/api/permissions-for/${ns}/pod/${action.name}`;
+  try {
+    const permissions = yield call(request, requestURL);
+    yield put(loadedPerms(permissions.permissions));
+  } catch (err) {
+    yield put(permsLoadingError(err));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* namespaceData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
+export function* namespaces() {
   yield takeLatest(LOAD_NAMESPACES, getNamespaces);
+}
+
+export function* namespace() {
   yield takeLatest(SELECT_NAMESPACE, getPods);
 }
+
+export function* pod() {
+  yield takeLatest(SELECT_POD, getPermissions);
+}
+
+export default [
+  {key: "namespace", saga: namespace},
+  {key: "namespaces", saga: namespaces},
+  {key: "pod", saga: pod},
+]

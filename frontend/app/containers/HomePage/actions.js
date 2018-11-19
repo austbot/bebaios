@@ -15,18 +15,18 @@
  *    }
  */
 
-import {SELECT_NAMESPACE} from './constants';
+import {SELECT_NAMESPACE, SELECT_POD} from './constants';
 
-/**
- * Changes the input field of the form
- *
- * @param  {name} name The new text of the input field
- *
- * @return {object}    An action object with a type of CHANGE_USERNAME
- */
 export function selectNamespace(name) {
   return {
     type: SELECT_NAMESPACE,
+    name
+  };
+}
+
+export function selectPod(name) {
+  return {
+    type: SELECT_POD,
     name
   };
 }

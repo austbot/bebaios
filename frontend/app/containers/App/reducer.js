@@ -15,7 +15,7 @@ import {fromJS} from 'immutable';
 import {
   LOAD_NAMESPACES,
   LOAD_NAMESPACES_ERROR,
-  LOAD_NAMESPACES_SUCCESS,
+  LOAD_NAMESPACES_SUCCESS, LOAD_PERMS_ERROR, LOAD_PERMS_SUCCESS,
   LOAD_PODS,
   LOAD_PODS_ERROR,
   LOAD_PODS_SUCCESS,
@@ -27,6 +27,7 @@ const initialState = fromJS({
   error: false,
   currentUser: false,
   namespaces: [],
+  permissions: {},
   pods: []
 });
 
@@ -39,16 +40,21 @@ function appReducer(state = initialState, action) {
         .set('error', false);
     case LOAD_NAMESPACES_SUCCESS:
       return state
-        .setIn(['namespaces'], action.ns)
+        .set('namespaces', action.ns)
         .set('loading', false);
     case LOAD_NAMESPACES_ERROR:
     case LOAD_PODS_ERROR:
+    case LOAD_PERMS_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);
     case LOAD_PODS_SUCCESS:
       return state
-        .setIn(['pods'], action.pods)
+        .set('pods', action.pods)
+        .set('loading', false);
+    case LOAD_PERMS_SUCCESS:
+      return state
+        .set('permissions', action.pods)
         .set('loading', false);
     default:
       return state;

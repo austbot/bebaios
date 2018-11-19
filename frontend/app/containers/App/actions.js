@@ -18,7 +18,7 @@
 import {
   LOAD_NAMESPACES,
   LOAD_NAMESPACES_ERROR,
-  LOAD_NAMESPACES_SUCCESS,
+  LOAD_NAMESPACES_SUCCESS, LOAD_PERMS_ERROR, LOAD_PERMS_SUCCESS,
   LOAD_PODS_ERROR,
   LOAD_PODS_SUCCESS,
 } from './constants';
@@ -78,6 +78,20 @@ export function loadedPods(pods) {
 export function podsLoadingError(error) {
   return {
     type: LOAD_PODS_ERROR,
+    error,
+  };
+}
+
+export function loadedPerms(pods) {
+  return {
+    type: LOAD_PERMS_SUCCESS,
+    pods
+  };
+}
+
+export function permsLoadingError(error) {
+  return {
+    type: LOAD_PERMS_ERROR,
     error,
   };
 }

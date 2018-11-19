@@ -15,4 +15,6 @@ export const LOAD_NAMESPACES_ERROR = 'boilerplate/App/LOAD_NAMESPACES_ERROR';
 export const LOAD_PODS = 'boilerplate/App/LOAD_PODS';
 export const LOAD_PODS_SUCCESS = 'boilerplate/App/LOAD_PODS_SUCCESS';
 export const LOAD_PODS_ERROR = 'boilerplate/App/LOAD_PODS_ERROR';
+export const LOAD_PERMS_SUCCESS = 'boilerplate/App/LOAD_PERMS_SUCCESS';
+export const LOAD_PERMS_ERROR = 'boilerplate/App/LOAD_PERMS_ERROR';
 export const DEFAULT_LOCALE = 'en';

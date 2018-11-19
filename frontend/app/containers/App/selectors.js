@@ -25,12 +25,17 @@ const makeSelectError = () => createSelector(
 
 const makeSelectNamespaces = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['namespaces'])
+  (globalState) => globalState.get('namespaces')
 );
 
 const makeSelectPods = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['pods'])
+  (globalState) => globalState.get('pods')
+);
+
+const makeSelectPermissions = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('permissions')
 );
 
 const makeSelectLocation = () => createSelector(
@@ -46,4 +51,5 @@ export {
   makeSelectNamespaces,
   makeSelectPods,
   makeSelectLocation,
+  makeSelectPermissions
 };

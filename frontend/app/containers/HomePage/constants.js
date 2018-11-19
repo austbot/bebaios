@@ -10,3 +10,4 @@
  */
 
 export const SELECT_NAMESPACE = 'boilerplate/Home/SELECT_NAMESPACE';
+export const SELECT_POD = 'boilerplate/Home/SELECT_POD';

@@ -11,7 +11,13 @@ const makeSelectNamespace = () => createSelector(
   (homeState) => homeState.get('namespace')
 );
 
+const makeSelectPod = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('pod')
+);
+
 export {
   selectHome,
   makeSelectNamespace,
+  makeSelectPod
 };
